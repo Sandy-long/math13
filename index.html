@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>趣味数学9 - 相遇与追及问题</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+        }
+        h2 {
+            color: #2980b9;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #16a085;
+            margin-top: 20px;
+        }
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .rule {
+            background-color: #f1f9fe;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+        .example {
+            background-color: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border: 1px solid #e0e0e0;
+        }
+        .question {
+            font-weight: bold;
+            color: #e74c3c;
+            margin: 12px 0 5px 0;
+        }
+        .answer {
+            color: #27ae60;
+            margin-left: 20px;
+            padding-left: 10px;
+            border-left: 2px solid #2ecc71;
+        }
+        
+        /* 相遇问题动画 */
+        .meeting-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .person {
+            width: 40px;
+            height: 60px;
+            position: absolute;
+            bottom: 20px;
+            animation-duration: 5s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+        .person-1 {
+            left: 50px;
+            animation-name: personMoveRight;
+        }
+        .person-2 {
+            right: 50px;
+            animation-name: personMoveLeft;
+        }
+        .person-head {
+            width: 20px;
+            height: 20px;
+            background-color: #d35400;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 10px;
+        }
+        .person-body {
+            width: 30px;
+            height: 30px;
+            background-color: #3498db;
+            position: absolute;
+            top: 20px;
+            left: 5px;
+            border-radius: 5px;
+        }
+        .shirt {
+            width: 30px;
+            height: 15px;
+            background-color: white;
+            position: absolute;
+            top: 20px;
+            left: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        .meeting-point {
+            width: 10px;
+            height: 10px;
+            background-color: #e74c3c;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: meetingPulse 2s infinite;
+        }
+        @keyframes personMoveRight {
+            0% { left: 50px; }
+            100% { left: calc(50% - 20px); }
+        }
+        @keyframes personMoveLeft {
+            0% { right: 50px; }
+            100% { right: calc(50% - 20px); }
+        }
+        @keyframes meetingPulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.5); }
+        }
+        
+        /* 追及问题动画 */
+        .chase-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .runner {
+            width: 40px;
+            height: 60px;
+            position: absolute;
+            bottom: 20px;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+        .runner-1 {
+            left: 50px;
+            animation-name: runnerSlow;
+            animation-duration: 6s;
+        }
+        .runner-2 {
+            left: 50px;
+            animation-name: runnerFast;
+            animation-duration: 4s;
+            animation-delay: 1s;
+        }
+        .runner-head {
+            width: 20px;
+            height: 20px;
+            background-color: #d35400;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 10px;
+        }
+        .runner-body {
+            width: 30px;
+            height: 30px;
+            background-color: #3498db;
+            position: absolute;
+            top: 20px;
+            left: 5px;
+            border-radius: 5px;
+        }
+        .runner-shirt {
+            width: 30px;
+            height: 15px;
+            background-color: white;
+            position: absolute;
+            top: 20px;
+            left: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        .catch-point {
+            width: 10px;
+            height: 10px;
+            background-color: #e74c3c;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 20px;
+            right: 100px;
+            animation: catchPulse 2s infinite;
+            animation-delay: 3s;
+        }
+        @keyframes runnerSlow {
+            0% { left: 50px; }
+            100% { left: calc(100% - 50px); }
+        }
+        @keyframes runnerFast {
+            0% { left: 50px; }
+            100% { left: calc(100% - 50px); }
+        }
+        @keyframes catchPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+        }
+        
+        /* 数列规律动画 */
+        .sequence-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .number-bubble {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #9b59b6;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin: 0 5px;
+            position: relative;
+            animation: bubbleFloat 3s infinite ease-in-out;
+        }
+        .number-bubble::after {
+            content: "+" attr(data-d);
+            position: absolute;
+            bottom: -20px;
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        @keyframes bubbleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        
+        /* 火车过桥动画 */
+        .train-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .bridge {
+            width: 100%;
+            height: 10px;
+            background-color: #95a5a6;
+            position: absolute;
+            top: 100px;
+        }
+        .train {
+            width: 100px;
+            height: 30px;
+            background-color: #e74c3c;
+            position: absolute;
+            bottom: 30px;
+            left: -100px;
+            animation: trainMove 8s infinite linear;
+            border-radius: 5px;
+        }
+        .train-window {
+            width: 15px;
+            height: 15px;
+            background-color: #3498db;
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            border-radius: 50%;
+        }
+        .train-window:nth-child(2) {
+            left: 35px;
+        }
+        .train-window:nth-child(3) {
+            left: 60px;
+        }
+        .train-window:nth-child(4) {
+            left: 85px;
+        }
+        @keyframes trainMove {
+            0% { left: -100px; }
+            100% { left: calc(100% + 100px); }
+        }
+        
+        /* 相对速度动画 */
+        .relative-speed-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .car {
+            width: 60px;
+            height: 30px;
+            background-color: #3498db;
+            position: absolute;
+            bottom: 50px;
+            border-radius: 5px;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+        .car-1 {
+            left: 50px;
+            animation-name: carMoveRight;
+            animation-duration: 5s;
+        }
+        .car-2 {
+            left: 150px;
+            animation-name: carMoveRightSlow;
+            animation-duration: 8s;
+        }
+        .car-wheel {
+            width: 10px;
+            height: 10px;
+            background-color: #333;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -5px;
+        }
+        .car-wheel:nth-child(1) {
+            left: 5px;
+        }
+        .car-wheel:nth-child(2) {
+            right: 5px;
+        }
+        @keyframes carMoveRight {
+            0% { left: 50px; }
+            100% { left: calc(100% - 50px); }
+        }
+        @keyframes carMoveRightSlow {
+            0% { left: 150px; }
+            100% { left: calc(100% - 50px); }
+        }
+        
+        /* 往返相遇动画 */
+        .round-trip-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .traveler {
+            width: 30px;
+            height: 50px;
+            position: absolute;
+            bottom: 30px;
+            animation: travelerMove 8s infinite linear;
+        }
+        .traveler-1 {
+            left: 50px;
+            animation-name: travelerRight;
+        }
+        .traveler-2 {
+            right: 50px;
+            animation-name: travelerLeft;
+        }
+        .traveler-head {
+            width: 15px;
+            height: 15px;
+            background-color: #d35400;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 7px;
+        }
+        .traveler-body {
+            width: 20px;
+            height: 25px;
+            background-color: #3498db;
+            position: absolute;
+            top: 15px;
+            left: 5px;
+            border-radius: 3px;
+        }
+        .meeting-spot {
+            width: 8px;
+            height: 8px;
+            background-color: #e74c3c;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 30px;
+            animation: meetingSpotPulse 2s infinite;
+            animation-delay: 2s;
+        }
+        @keyframes travelerRight {
+            0% { left: 50px; }
+            50% { left: calc(100% - 80px); }
+            100% { left: 50px; }
+        }
+        @keyframes travelerLeft {
+            0% { right: 50px; }
+            50% { right: calc(100% - 80px); }
+            100% { right: 50px; }
+        }
+        @keyframes meetingSpotPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.7; }
+        }
+        
+        /* 不同时出发动画 */
+        .delayed-start-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .early-person {
+            width: 40px;
+            height: 60px;
+            position: absolute;
+            bottom: 20px;
+            left: 50px;
+            animation: earlyPersonMove 8s infinite linear;
+        }
+        .late-person {
+            width: 40px;
+            height: 60px;
+            position: absolute;
+            bottom: 20px;
+            left: 50px;
+            animation: latePersonMove 8s infinite linear;
+            animation-delay: 2s;
+        }
+        .early-head {
+            width: 20px;
+            height: 20px;
+            background-color: #d35400;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 10px;
+        }
+        .early-body {
+            width: 30px;
+            height: 30px;
+            background-color: #3498db;
+            position: absolute;
+            top: 20px;
+            left: 5px;
+            border-radius: 5px;
+        }
+        .late-head {
+            width: 20px;
+            height: 20px;
+            background-color: #e67e22;
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            left: 10px;
+        }
+        .late-body {
+            width: 30px;
+            height: 30px;
+            background-color: #2ecc71;
+            position: absolute;
+            top: 20px;
+            left: 5px;
+            border-radius: 5px;
+        }
+        @keyframes earlyPersonMove {
+            0% { left: 50px; }
+            100% { left: calc(100% - 50px); }
+        }
+        @keyframes latePersonMove {
+            0% { left: 50px; }
+            100% { left: calc(100% - 50px); }
+        }
+        
+        /* 数列分组动画 */
+        .group-sequence-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .sequence-group {
+            display: flex;
+            margin: 0 10px;
+        }
+        .group-number {
+            width: 30px;
+            height: 30px;
+            background-color: #3498db;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin: 0 2px;
+            border-radius: 5px;
+            animation: groupPulse 2s infinite;
+            animation-delay: calc(var(--delay) * 0.2s);
+        }
+        .group-separator {
+            font-size: 20px;
+            color: #7f8c8d;
+            margin: 0 5px;
+        }
+        @keyframes groupPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        /* 平方差动画 */
+        .square-diff-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .square {
+            width: 80px;
+            height: 80px;
+            background-color: #3498db;
+            position: relative;
+            margin: 0 20px;
+            animation: squareRotate 4s infinite linear;
+        }
+        .square-cut {
+            width: 60px;
+            height: 60px;
+            background-color: #2ecc71;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        .formula {
+            font-size: 24px;
+            font-weight: bold;
+            color: #e74c3c;
+            animation: formulaPulse 2s infinite;
+        }
+        @keyframes squareRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes formulaPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+        
+        /* 新运算动画 */
+        .new-operation-animation {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 20px auto;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .operation-symbol {
+            font-size: 40px;
+            color: #9b59b6;
+            margin: 0 10px;
+            animation: symbolFloat 3s infinite ease-in-out;
+        }
+        .operation-number {
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 20px;
+            margin: 0 10px;
+            animation: numberFloat 3s infinite ease-in-out;
+        }
+        .operation-equals {
+            font-size: 30px;
+            color: #e74c3c;
+            margin: 0 10px;
+            animation: equalsPulse 2s infinite;
+        }
+        @keyframes symbolFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes numberFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        @keyframes equalsPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h1>趣味数学9 - 相遇与追及问题</h1>
+    
+    <div class="section">
+        <h2>相遇问题</h2>
+        
+        <div class="meeting-animation">
+            <div class="person person-1">
+                <div class="person-head"></div>
+                <div class="shirt"></div>
+                <div class="person-body"></div>
+            </div>
+            <div class="person person-2">
+                <div class="person-head"></div>
+                <div class="shirt"></div>
+                <div class="person-body"></div>
+            </div>
+            <div class="meeting-point"></div>
+        </div>
+        
+        <h3>1. 基本公式</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>路程=速度×时间
+        </div>
+        
+        <div class="example">
+            <div class="question">速度10千米/时，时间3小时，路程是多少？</div>
+            <div class="answer">30千米</div>
+            
+            <div class="question">路程50千米，速度5千米/时，时间是多少？</div>
+            <div class="answer">10小时</div>
+            
+            <div class="question">速度8千米/时，行2小时，路程是多少？</div>
+            <div class="answer">16千米</div>
+        </div>
+        
+        <h3>2. 同时出发</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>相遇时间=路程÷速度和
+        </div>
+        
+        <div class="example">
+            <div class="question">两人相向而行，速度和为10千米/时，路程40千米，相遇时间是多少？</div>
+            <div class="answer">4小时</div>
+            
+            <div class="question">相遇时间5小时，速度和12千米/时，路程是多少？</div>
+            <div class="answer">60千米</div>
+            
+            <div class="question">两车速度和为90千米/时，路程180千米，相遇时间是多少？</div>
+            <div class="answer">2小时</div>
+        </div>
+        
+        <h3>3. 不同时出发</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>先算先行路程
+        </div>
+        
+        <div class="example">
+            <div class="question">A先走2小时，速度6千米/时，先行路程是多少？</div>
+            <div class="answer">12千米</div>
+            
+            <div class="question">B后出发，速度8千米/时，A先行12千米，B追上A需要多少时间？</div>
+            <div class="answer">6小时 (12÷(8-6)=6)</div>
+            
+            <div class="question">A先出发3小时，速度4千米/时，先行路程是多少？</div>
+            <div class="answer">12千米</div>
+        </div>
+        
+        <h3>4. 往返相遇</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>每次相遇共走2倍距离
+        </div>
+        
+        <div class="example">
+            <div class="question">甲乙两人从相距20千米的两地同时出发相向而行，往返相遇1次共走的路程是多少？</div>
+            <div class="answer">40千米</div>
+            
+            <div class="question">原路程30千米，相遇2次共走的路程是多少？</div>
+            <div class="answer">90千米</div>
+            
+            <div class="question">原路程20千米，相遇3次共走的路程是多少？</div>
+            <div class="answer">100千米 </div>
+        </div>
+        
+        <h3>5. 火车过桥</h3>
+        <div class="train-animation">
+            <div class="bridge"></div>
+            <div class="train">
+                <div class="train-window"></div>
+                <div class="train-window"></div>
+                <div class="train-window"></div>
+                <div class="train-window"></div>
+            </div>
+        </div>
+        
+        <div class="rule">
+            <strong>运算法则：</strong>路程=车长+桥长
+        </div>
+        
+        <div class="example">
+            <div class="question">火车长150米，桥长200米，过桥路程是多少？</div>
+            <div class="answer">350米</div>
+            
+            <div class="question">车长300米，桥长400米，共走的路程是多少？</div>
+            <div class="answer">700米</div>
+            
+            <div class="question">火车过桥路程500米，车长200米，桥长是多少？</div>
+            <div class="answer">300米</div>
+        </div>
+        
+        <h3>6. 相对速度</h3>
+        <div class="relative-speed-animation">
+            <div class="car car-1">
+                <div class="car-wheel"></div>
+                <div class="car-wheel"></div>
+            </div>
+            <div class="car car-2">
+                <div class="car-wheel"></div>
+                <div class="car-wheel"></div>
+            </div>
+        </div>
+        
+        <div class="rule">
+            <strong>运算法则：</strong>同向相减，反向相加
+        </div>
+        
+        <div class="example">
+            <div class="question">同向而行，甲速度12千米/时，乙速度8千米/时，相对速度是多少？</div>
+            <div class="answer">4千米/时</div>
+            
+            <div class="question">反向而行，甲速度10千米/时，乙速度5千米/时，相对速度是多少？</div>
+            <div class="answer">15千米/时</div>
+            
+            <div class="question">甲速度15千米/时，乙速度15千米/时，同向而行时相对速度是多少？</div>
+            <div class="answer">0千米/时</div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>追及问题</h2>
+        
+        <div class="chase-animation">
+            <div class="runner runner-1">
+                <div class="runner-head"></div>
+                <div class="runner-shirt"></div>
+                <div class="runner-body"></div>
+            </div>
+            <div class="runner runner-2">
+                <div class="runner-head"></div>
+                <div class="runner-shirt"></div>
+                <div class="runner-body"></div>
+            </div>
+            <div class="catch-point"></div>
+        </div>
+        
+        <h3>1. 基本追及</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>时间=距离差÷速度差
+        </div>
+        
+        <div class="example">
+            <div class="question">距离差20千米，速度差4千米/时，追上时间是多少？</div>
+            <div class="answer">5小时</div>
+            
+            <div class="question">距离差60米，速度差3米/秒，追上时间是多少？</div>
+            <div class="answer">20秒</div>
+            
+            <div class="question">A比B快2千米/时，落后6千米，追上需要多少时间？</div>
+            <div class="answer">3小时</div>
+        </div>
+        
+        <h3>2. 隐藏距离</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>通过时间差推算
+        </div>
+        
+        <div class="example">
+            <div class="question">A早出发1小时，速度5千米/时，先行路程是多少？</div>
+            <div class="answer">5千米</div>
+            
+            <div class="question">B比A晚2小时出发，A速度6千米/时，B出发时A已经走了多远？</div>
+            <div class="answer">12千米</div>
+            
+            <div class="question">A早出发3小时，速度10千米/时，B出发时A已经走了多远？</div>
+            <div class="answer">30千米</div>
+        </div>
+        
+        <h3>3. 不同时出发</h3>
+        <div class="delayed-start-animation">
+            <div class="early-person">
+                <div class="early-head"></div>
+                <div class="early-body"></div>
+            </div>
+            <div class="late-person">
+                <div class="late-head"></div>
+                <div class="late-body"></div>
+            </div>
+        </div>
+        
+        <div class="rule">
+            <strong>运算法则：</strong>先算先行距离
+        </div>
+        
+        <div class="example">
+            <div class="question">A早走2小时，速度7千米/时，先行路程是多少？</div>
+            <div class="answer">14千米</div>
+            
+            <div class="question">B速度12千米/时，A速度10千米/时，A先行14千米，B追上A需要多少时间？</div>
+            <div class="answer">7小时 </div>
+            
+            <div class="question">A早出发3小时，速度5千米/时，先行路程是多少？</div>
+            <div class="answer">15千米</div>
+        </div>
+        
+        <h3>4. 往返追及</h3>
+        <div class="round-trip-animation">
+            <div class="traveler traveler-1">
+                <div class="traveler-head"></div>
+                <div class="traveler-body"></div>
+            </div>
+            <div class="traveler traveler-2">
+                <div class="traveler-head"></div>
+                <div class="traveler-body"></div>
+            </div>
+            <div class="meeting-spot" style="left: 30%;"></div>
+            <div class="meeting-spot" style="left: 70%;"></div>
+        </div>
+        
+        <div class="rule">
+            <strong>运算法则：</strong>每次追及多走2倍距离
+        </div>
+        
+        <div class="example">
+            <div class="question">甲乙从相距20千米的两地同时同向出发，第一次追上时共走的路程是多少？</div>
+            <div class="answer">40千米</div>
+            
+            <div class="question">原路程30千米，两次追上共多走的路程是多少？</div>
+            <div class="answer">120千米 </div>
+            
+            <div class="question">路程40千米，三次追及共多走的路程是多少？</div>
+            <div class="answer">240千米 </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>数列规律计算</h2>
+        
+        <div class="sequence-animation">
+            <div class="number-bubble" style="--delay: 0;" data-d="2">3</div>
+            <div class="number-bubble" style="--delay: 1;" data-d="2">5</div>
+            <div class="number-bubble" style="--delay: 2;" data-d="2">7</div>
+            <div class="number-bubble" style="--delay: 3;" data-d="2">9</div>
+            <div class="number-bubble" style="--delay: 4;" data-d="2">11</div>
+            <div class="number-bubble" style="--delay: 5;" data-d="2">13</div>
+        </div>
+        
+        <h3>1. 奇偶分组</h3>
+        <div class="rule">
+            <strong>运算法则：</strong>分别观察奇数位和偶数位
+        </div>
+        
+        <div class="example">
+            <div class="question">数列1,3,2,5,4,7,…奇数位(第1,3,5项)是什么？</div>
+            <div class="answer">1,2,4</div>
+            
+            <div class="question">数列2,4,3,6,4,8,…偶数位(第2,4,6项)是什么？</div>
+            <div class="answer">4,6,8</div>
+            
+            <div class="question">数列1,3,2,5,4,7,…按此规律第7项是多少？</div>
+            <div class="answer">6</div>
+        </div>
+        
+        <h3>2. 数组规律</h3>
+        <div class="group-sequence-animation">
+            <div class="sequence-group">
+                <div class="group-number" style="--delay: 0;">1</div>
+                <div class="group-number" style="--delay: 1;">1</div>
+                <div class="group-number" style="--delay: 2;">2</div>
+            </div>
+            <div class="group-separator">,</div>
+            <div class="sequence-group">
+                <div class="group-number" style="--delay: 3;">2</div>
+                <div class="group-number" style="--delay: 4;">3</div>
+                <div class="group-number" style="--delay: 5;">3</div>
+            </div>
+            <div class="group-separator">,</div>
+            <div class="sequence-group">
+                <div class="group-number" style="--delay: 6;">4</div>
+                <div class="group-number" style="--delay: 7;">4</div>
+                <div class="group-number" style="--delay: 8;">5</div>
+            </div>
+        </div>
+        
+        <div class="rule">
+            <strong>运算法则：</strong>按固定长度分组观察
+        </div>
+        
+        <div class="example">
+            <div class="question">数列2,4,6,1,3,5,…按三数一组，第7项是多少？</div>
+            <div class="answer">2</div>
+            
+            <div class="question">数列1,1,2,2,3,3,…按两数一组，第8项是多少？</div>
+            <div class="answer">4</div>
+            
+            <div class="question">数列1,2,3,4,5,6,…按[1,2,3],[4,5,6]分组，第10项是多少？</div>
+            <div class="answer">10</div>
+        </div>
+        
+        <h3>3. 平方差公式</h3>
+        <div class="square-diff-animation">
+            <div class="square">
+                <div class="square-cut"></div>
+            </div>
+            <div class="formula">a² - b² = (a + b)(a - b)</div>
+        </div>
+        
+        <div class="rule">
+            <strong>运算法则：</strong>a²-b²=(a+b)(a-b)
+        </div>
+        
+        <div class="example">
+            <div class="question">81-49是多少？</div>
+            <div class="answer">32</div>
+            
+            <div class="question">36-25是多少？</div>
+            <div class="answer">11</div>
+            
+            <div class="question">用平方差公式计算：49²-48²是多少？</div>
+            <div class="answer">97 </div>
+        </div>
+        
+        <h3>4. 新运算</h3>
+        <div class="new-operation-animation">
+            <div class="operation-number">3</div>
+            <div class="operation-symbol">★</div>
+            <div class="operation-number">4</div>
+            <div class="operation-equals">=</div>
+            <div class="operation-number">8</div>
+        </div>
+        
+        <div class="rule">
+            <strong>运算法则：</strong>严格按定义运算
+        </div>
+        
+        <div class="example">
+            <div class="question">若 a★b = a+b+1，3★4是多少？</div>
+            <div class="answer">8 </div>
+            
+            <div class="question">设 a◎b = a×b-1，2◎5是多少？</div>
+            <div class="answer">9 </div>
+            
+            <div class="question">若 a◇b = a²-b²，3◇1是多少？</div>
+            <div class="answer">8 </div>
+        </div>
+    </div>
+</body>
+</html>
