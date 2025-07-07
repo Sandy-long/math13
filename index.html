@@ -57,13 +57,70 @@
             color: #e74c3c;
             margin: 12px 0 5px 0;
         }
-        .answer {
-            color: #27ae60;
-            margin-left: 20px;
-            padding-left: 10px;
-            border-left: 2px solid #2ecc71;
+        .question-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ebf5fb 100%);
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e1ecf7;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
+        .answer-container {
+            background: linear-gradient(135deg, #f0fff4 0%, #e6fffa 100%);
+            border: 2px solid #c8f0dd;
+            border-radius: 8px;
+            padding: 5px 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .answer-container:hover {
+            background: linear-gradient(135deg, #dcffe4 0%, #c6f6d5 100%);
+            transform: translateX(5px);
+            border-color: #8de0b7;
+        }
+        
+        .answer-prompt {
+            color: #0f9d58;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 1rem;
+        }
+        
+        .answer-prompt::before {
+            content: "✨";
+            margin-right: 8px;
+            font-size: 1.3em;
+        }
+        
+        .answer-content {
+            color: #0d864a;
+            margin-left: 20px;
+            padding: 10px 15px;
+            background-color: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10b981;
+            border-radius: 0 8px 8px 0;
+            display: none;
+            font-weight: bold;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .show-answer .answer-content {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 所有动画样式保持不变 */
         /* 相遇问题动画 */
         .meeting-animation {
             width: 100%;
@@ -227,46 +284,6 @@
             50% { transform: scale(1.5); }
         }
         
-        /* 数列规律动画 */
-        .sequence-animation {
-            width: 100%;
-            height: 200px;
-            position: relative;
-            margin: 20px auto;
-            background-color: #f5f7fa;
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .number-bubble {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #9b59b6;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            margin: 0 5px;
-            position: relative;
-            animation: bubbleFloat 3s infinite ease-in-out;
-        }
-        .number-bubble::after {
-            content: "+" attr(data-d);
-            position: absolute;
-            bottom: -20px;
-            font-size: 12px;
-            color: #7f8c8d;
-        }
-        @keyframes bubbleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-        
         /* 火车过桥动画 */
         .train-animation {
             width: 100%;
@@ -363,6 +380,7 @@
         .car-wheel:nth-child(2) {
             right: 5px;
         }
+        
         @keyframes carMoveRight {
             0% { left: 50px; }
             100% { left: calc(100% - 50px); }
@@ -370,75 +388,6 @@
         @keyframes carMoveRightSlow {
             0% { left: 150px; }
             100% { left: calc(100% - 50px); }
-        }
-        
-        /* 往返相遇动画 */
-        .round-trip-animation {
-            width: 100%;
-            height: 200px;
-            position: relative;
-            margin: 20px auto;
-            background-color: #f5f7fa;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .traveler {
-            width: 30px;
-            height: 50px;
-            position: absolute;
-            bottom: 30px;
-            animation: travelerMove 8s infinite linear;
-        }
-        .traveler-1 {
-            left: 50px;
-            animation-name: travelerRight;
-        }
-        .traveler-2 {
-            right: 50px;
-            animation-name: travelerLeft;
-        }
-        .traveler-head {
-            width: 15px;
-            height: 15px;
-            background-color: #d35400;
-            border-radius: 50%;
-            position: absolute;
-            top: 0;
-            left: 7px;
-        }
-        .traveler-body {
-            width: 20px;
-            height: 25px;
-            background-color: #3498db;
-            position: absolute;
-            top: 15px;
-            left: 5px;
-            border-radius: 3px;
-        }
-        .meeting-spot {
-            width: 8px;
-            height: 8px;
-            background-color: #e74c3c;
-            border-radius: 50%;
-            position: absolute;
-            bottom: 30px;
-            animation: meetingSpotPulse 2s infinite;
-            animation-delay: 2s;
-        }
-        @keyframes travelerRight {
-            0% { left: 50px; }
-            50% { left: calc(100% - 80px); }
-            100% { left: 50px; }
-        }
-        @keyframes travelerLeft {
-            0% { right: 50px; }
-            50% { right: calc(100% - 80px); }
-            100% { right: 50px; }
-        }
-        @keyframes meetingSpotPulse {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.5); opacity: 0.7; }
         }
         
         /* 不同时出发动画 */
@@ -510,12 +459,12 @@
             100% { left: calc(100% - 50px); }
         }
         @keyframes latePersonMove {
-            0% { left: 50px; }
+            0% { left极 50px; }
             100% { left: calc(100% - 50px); }
         }
         
-        /* 数列分组动画 */
-        .group-sequence-animation {
+        /* 往返相遇动画 */
+        .round-trip-animation {
             width: 100%;
             height: 200px;
             position: relative;
@@ -523,140 +472,69 @@
             background-color: #f5f7fa;
             border-radius: 8px;
             overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.极);
         }
-        .sequence-group {
-            display: flex;
-            margin: 0 10px;
-        }
-        .group-number {
+        .traveler {
             width: 30px;
-            height: 30px;
-            background-color: #3498db;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            margin: 0 2px;
-            border-radius: 5px;
-            animation: groupPulse 2s infinite;
-            animation-delay: calc(var(--delay) * 0.2s);
-        }
-        .group-separator {
-            font-size: 20px;
-            color: #7f8c8d;
-            margin: 0 5px;
-        }
-        @keyframes groupPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-        
-        /* 平方差动画 */
-        .square-diff-animation {
-            width: 100%;
-            height: 200px;
-            position: relative;
-            margin: 20px auto;
-            background-color: #f5f7fa;
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .square {
-            width: 80px;
-            height: 80px;
-            background-color: #3498db;
-            position: relative;
-            margin: 0 20px;
-            animation: squareRotate 4s infinite linear;
-        }
-        .square-cut {
-            width: 60px;
-            height: 60px;
-            background-color: #2ecc71;
-            position: absolute;
-            top: 10px;
-            left: 10px;
-        }
-        .formula {
-            font-size: 24px;
-            font-weight: bold;
-            color: #e74c3c;
-            animation: formulaPulse 2s infinite;
-        }
-        @keyframes squareRotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        @keyframes formulaPulse {
-            0%, 100% { opacity: 0.8; }
-            50% { opacity: 1; }
-        }
-        
-        /* 新运算动画 */
-        .new-operation-animation {
-            width: 100%;
-            height: 200px;
-            position: relative;
-            margin: 20px auto;
-            background-color: #f5f7fa;
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .operation-symbol {
-            font-size: 40px;
-            color: #9b59b6;
-            margin: 0 10px;
-            animation: symbolFloat 3s infinite ease-in-out;
-        }
-        .operation-number {
-            width: 50px;
             height: 50px;
-            background-color: #3498db;
-            color: white;
+            position: absolute;
+            bottom: 30px;
+            animation: travelerMove 8s infinite linear;
+        }
+        .traveler-1 {
+            left: 50px;
+            animation-name: travelerRight;
+        }
+        .traveler-2 {
+            right: 50px;
+            animation-name: travelerLeft;
+        }
+        .traveler-head {
+            width: 15px;
+            height: 15px;
+            background-color: #d35400;
             border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: 20px;
-            margin: 0 10px;
-            animation: numberFloat 3s infinite ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 7px;
         }
-        .operation-equals {
-            font-size: 30px;
-            color: #e74c3c;
-            margin: 0 10px;
-            animation: equalsPulse 2s infinite;
+        .traveler-body {
+            width: 20px;
+            height: 25px;
+            background-color: #3498db;
+            position: absolute;
+            top: 15px;
+            left: 5px;
+            border-radius: 3px;
         }
-        @keyframes symbolFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        .meeting-spot {
+            width: 8px;
+            height: 8px;
+            background-color: #e74c3c;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 30px;
+            animation: meetingSpotPulse 2s infinite;
+            animation-delay: 2s;
         }
-        @keyframes numberFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+        @keyframes travelerRight {
+            0% { left: 50px; }
+            50% { left: calc(100% - 80px); }
+            100% { left: 50px; }
         }
-        @keyframes equalsPulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
+        @keyframes travelerLeft {
+            0% { right: 50px; }
+            50% { right: calc(100% - 80px); }
+            100% { right: 50px; }
+        }
+        @keyframes meetingSpotPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.7; }
         }
     </style>
 </head>
 <body>
-    <h1>趣味数学13</h1>
+    <h1>趣味数学13 </h1>
     
     <div class="section">
         <h2>相遇问题</h2>
@@ -681,14 +559,29 @@
         </div>
         
         <div class="example">
-            <div class="question">汽车以60 km/h的速度行驶2小时，求行驶路程。</div>
-            <div class="answer"> ​​120 km</div>
+            <div class="question-container">
+                <div class="question">汽车以60 km/h的速度行驶2小时，求行驶路程。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">120 km</div>
+                </div>
+            </div>
             
-            <div class="question">飞机速度为800 km/h，飞行时间为45分钟，求飞行距离。</div>
-            <div class="answer"> ​​600 km</div>
+            <div class="question-container">
+                <div class="question">飞机速度为800 km/h，飞行时间为45分钟，求飞行距离。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">600 km</div>
+                </div>
+            </div>
             
-            <div class="question">小明前30分钟步行（速度5 km/h），后1.5小时骑车（速度15 km/h），求总路程。</div>
-            <div class="answer">25千米</div>
+            <div class="question-container">
+                <div class="question">小明前30分钟步行（速度5 km/h），后1.5小时骑车（速度15 km/h），求总路程。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">25千米</div>
+                </div>
+            </div>
         </div>
         
         <h3>2. 同时出发</h3>
@@ -697,14 +590,29 @@
         </div>
         
         <div class="example">
-            <div class="question">A、B两车相距400 km，A车速度60 km/h，B车速度40 km/h，同时出发相向而行，多久相遇？</div>
-            <div class="answer">4小时</div>
+            <div class="question-container">
+                <div class="question">A、B两车相距400 km，A车速度60 km/h，B车速度40 km/h，同时出发相向而行，多久相遇？</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</极>
+                    <div class="answer-content">4小时</div>
+                </div>
+            </div>
             
-            <div class="question">甲以15 km/h、乙以250 m/min的速度从相距5 km的两地同时相向而行，求相遇时间。</div>
-            <div class="answer">10分钟</div>
+            <div class="question-container">
+                <div class="question">甲以15 km/h、乙以250 m/min的速度从相距5 km的两地同时相向而行，求相遇时间。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">10分钟</div>
+                </div>
+            </div>
             
-            <div class="question">两车相距360 km，A车以80 km/h出发，B车以70 km/h但出发1小时后才行驶，求相遇时间。</div>
-            <div class="answer">≈ ​​1小时52分钟​</div>
+            <div class="question-container">
+                <div class="question">两车相距360 km，A车以80 km/h出发，B车以70 km/h但出发1小时后才行驶，求相遇时间。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">≈ 1小时52分钟</div>
+                </div>
+            </div>
         </div>
         
         <h3>3. 不同时出发</h3>
@@ -713,14 +621,29 @@
         </div>
         
         <div class="example">
-            <div class="question">甲车以60 km/h从A地出发，1小时后乙车以80 km/h从A地同向出发，问多久后乙车追上甲车？</div>
-            <div class="answer">3h</div>
+            <div class="question-container">
+                <div class="question">甲车以60 km/h从A地出发，1小时后乙车以80 km/h从A地同向出发，问多久后乙车追上甲车？</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">3h</div>
+                </div>
+            </div>
             
-            <div class="question">A、B两地相距500 km，甲车以70 km/h从A地出发，2小时后乙车以60 km/h从B地出发相向而行，求相遇时间。</div>
-            <div class="answer">2小时46分钟</div>
+            <div class="question-container">
+                <div class="question">A、B两地相距500 km，甲车以70 km/h从A地出发，2小时后乙车以60 km/h从B地出发相向而行，求相遇时间。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">2小时46分钟</div>
+                </div>
+            </div>
             
-            <div class="question">快递员A以12 km/h出发送包裹，30分钟后发现遗漏，快递员B以15 km/h追赶，A此时已减速至10 km/h，问多久追上？</div>
-            <div class="answer">1.2小时​​（即1小时12分钟）</div>
+            <div class="question-container">
+                <div class="question">快递员A以12 km/h出发送包裹，30分钟后发现遗漏，快递员B以15 km/h追赶，A此时已减速至10 km/h，问多久追上？</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">1.2小时（即1小时12分钟）</div>
+                </div>
+            </div>
         </div>
         
         <h3>4. 往返相遇</h3>
@@ -729,14 +652,29 @@
         </div>
         
         <div class="example">
-            <div class="question">甲、乙从相距100米的A、B两点同时出发，相向而行。甲速3 m/s，乙速2 m/s，求第二次相遇的位置。</div>
-            <div class="answer">第二次相遇在​​距A点40米​​处</div>
+            <div class="question-container">
+                <div class="question">甲、乙从相距100米的A、B两点同时出发，相向而行。甲速3 m/s，乙速2 m/s，求第二次相遇的位置。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">第二次相遇在距A点40米处</div>
+                </div>
+            </div>
             
-            <div class="question">两地相距90 km，快车速度60 km/h，慢车速度30 km/h，两车同时从两端出发往返行驶，求第三次相遇时间。</div>
-            <div class="answer">6小时​</div>
+            <div class="question-container">
+                <div class="question">两地相距90 km，快车速度60 km/h，慢车速度30 km/h，两车同时从两端出发往返行驶，求第三次相遇时间。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">6小时</div>
+                </div>
+            </div>
             
-            <div class="question">环形跑道长400米，甲、乙同时同地出发，甲速5 m/s，乙速3 m/s，反向而行。求第5次相遇时间。</div>
-            <div class="answer">250秒</div>
+            <div class="question-container">
+                <div class="question">环形跑道长400米，甲、乙同时同地出发，甲速5 m/s，乙速3 m/s，反向而行。求第5次相遇时间。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">250秒</div>
+                </div>
+            </div>
         </div>
         
         <h3>5. 火车过桥</h3>
@@ -755,14 +693,29 @@
         </div>
         
         <div class="example">
-            <div class="question">一列长200米的火车以60 km/h的速度通过一座长800米的桥，求完全通过所需时间。</div>
-            <div class="answer">≈ ​​60秒​​（1分钟）</div>
+            <div class="question-container">
+                <div class="question">一列长200米的火车以60 km/h的速度通过一座长800米的桥，求完全通过所需时间。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">≈ 60秒（1分钟）</div>
+                </div>
+            </div>
             
-            <div class="question">长150米的火车以72 km/h行驶，与以1 m/s同向行走的行人相遇，求火车从追上到完全超过行人所需时间。</div>
-            <div class="answer"> ≈ ​​7.89秒</div>
+            <div class="question-container">
+                <div class="question">长150米的火车以72 km/h行驶，与以1 m/s同向行走的行人相遇，求火车从追上到完全超过行人所需时间。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">≈ 7.89秒</div>
+                </div>
+            </div>
             
-            <div class="question">两列火车分别长120米和180米，速度分别为50 km/h和40 km/h，相向而行时完全错车（从车头相遇到车尾分离）需多少时间？</div>
-            <div class="answer">​​12秒​</div>
+            <div class="question-container">
+                <div class="question">两列火车分别长120米和180米，速度分别为50 km/h和40 km/h，相向而行时完全错车（从车头相遇到车尾分离）需多少时间？</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">12秒</div>
+                </div>
+            </div>
         </div>
         
         <h3>6. 相对速度</h3>
@@ -782,14 +735,29 @@
         </div>
         
         <div class="example">
-            <div class="question">甲车以80 km/h行驶，乙车以60 km/h同向行驶，甲车需多久追上100 km前方的乙车？</div>
-            <div class="answer">5小时</div>
+            <div class="question-container">
+                <div class="question">甲车以80 km/h行驶，乙车以60 km/h同向行驶，甲车需多久追上100 km前方的乙车？</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">5小时</div>
+                </div>
+            </div>
             
-            <div class="question">两列火车分别以120 km/h和80 km/h相向而行，初始相距400 km，多久相遇？</div>
-            <div class="answer">2小时</div>
+            <div class="question-container">
+                <div class="question">两列火车分别以120 km/h和80 km/h相向而行，初始相距400 km，多久相遇？</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">2小时</div>
+                </div>
+            </div>
             
-            <div class="question">两架飞机从机场同向起飞，速度分别为800 km/h和600 km/h，若需间隔100 km以上才安全，求最小起飞时间间隔。</div>
-            <div class="answer"> ​​0.5小时​​（30分钟）</div>
+            <div class="question-container">
+                <div class="question">两架飞机从机场同向起飞，速度分别为800 km/h和600 km/h，若需间隔100 km以上才安全，求最小起飞时间间隔。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">0.5小时（30分钟）</div>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -816,14 +784,29 @@
         </div>
         
         <div class="example">
-            <div class="question">甲车在乙车前方100 km处，甲速60 km/h，乙速80 km/h，乙车多久追上甲车？</div>
-            <div class="answer">5小时</div>
+            <div class="question-container">
+                <div class="question">甲车在乙车前方100 km处，甲速60 km/h，乙速80 km/h，乙车多久追上甲车？</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">5小时</div>
+                </div>
+            </div>
             
-            <div class="question">小明在小白前方200米处，小明速度5 m/s，小白速度18 km/h，小白多久追上小明？</div>
-            <div class="answer">无法追上</div>
+            <div class="question-container">
+                <div class="question">小明在小白前方200米处，小明速度5 m/s，小白速度18 km/h，小白多久追上小明？</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">无法追上</div>
+                </div>
+            </div>
             
-            <div class="question">快递员A以12 km/h出发，1小时后快递员B以20 km/h同路线追赶，多久追上？</div>
-            <div class="answer">1.5小时​</div>
+            <div class="question-container">
+                <div class="question">快递员A以12 km/h出发，1小时后快递员B以20 km/h同路线追赶，多久追上？</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">1.5小时</div>
+                </div>
+            </div>
         </div>
         
         <h3>2. 隐藏距离</h3>
@@ -832,14 +815,29 @@
         </div>
         
         <div class="example">
-            <div class="question">火车通过一座桥，完全通过用时30秒，已知火车速度20 m/s，桥长400米，求火车长度。</div>
-            <div class="answer">200米</div>
+            <div class="question-container">
+                <div class="question">火车通过一座桥，完全通过用时30秒，已知火车速度20 m/s，桥长400米，求火车长度。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">200米</div>
+                </div>
+            </div>
             
-            <div class="question">甲、乙从A地到B地，甲速15 km/h，乙速10 km/h，甲比乙早到1小时，求AB距离。</div>
-            <div class="answer">30 km​</div>
+            <div class="question-container">
+                <div class="question">甲、乙从A地到B地，甲速15 km/h，乙速10 km/h，甲比乙早到1小时，求AB距离。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">30 km</div>
+                </div>
+            </div>
             
-            <div class="question">两车相向而行，A车速度60 km/h，B车速度40 km/h，相遇时A车比B车多行驶50 km，求初始距离。</div>
-            <div class="answer">250千米</div>
+            <div class="question-container">
+                <div class="question">两车相向而行，A车速度60 km/h，B车速度40 km/h，相遇时A车比B车多行驶50 km，求初始距离。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">250千米</div>
+                </div>
+            </div>
         </div>
         
         <h3>3. 不同时出发</h3>
@@ -859,16 +857,21 @@
         </div>
         
         <div class="example">
-            <div class="question">甲车以60 km/h从A地出发，1小时后乙车以80 km/h从A地同向出发，问多久后乙车追上甲车？</div>
-            <div class="answer">​​3小时​</div>
+            <div class="question-container">
+                <div class="question">甲车以60 km/h从A地出发，1小时后乙车以80 km/h从A地同向出发，问多久后乙车追上甲车？</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">3小时</div>
+                </div>
+            </div>
             
-            <div class="question">A、B两地相距500 km，甲车以70 km/h从A地出发，2小时后乙车以60 km/h从B地出发相向而行，求相遇时间。</div>
-            <div class="answer">2小时46分钟 </div>
-            
-            <div class="question">环形跑道长400米，甲以5 m/s、乙以3 m/s同向跑步，甲让乙先跑100米后再出发，甲多久追上乙？</div>
-            <div class="answer">50秒</div>
-			
-			
+            <div class="question-container">
+                <div class="question">环形跑道长400米，甲以5 m/s、乙以3 m/s同向跑步，甲让乙先跑100米后再出发，甲多久追上乙？</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">50秒</div>
+                </div>
+            </div>
         </div>
         
         <h3>4. 往返追及</h3>
@@ -890,18 +893,42 @@
         </div>
         
         <div class="example">
-            <div class="question">甲乙从A地出发，甲速6 m/s，乙速4 m/s，乙先跑100米后甲开始追，求甲第一次往返追上乙的时间。</div>
-            <div class="answer">100s</div>
+            <div class="question-container">
+                <div class="question">甲乙从A地出发，甲速6 m/s，乙速4 m/s，乙先跑100米后甲开始追，求甲第一次往返追上乙的时间。</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">100s</div>
+                </div>
+            </div>
             
-            <div class="question">环形跑道长400米，甲速8 m/s，乙速5 m/s同向出发，甲第三次追上乙时，乙跑了多少米？</div>
-            <div class="answer"> ​​2000米​ </div>
+            <div class="question-container">
+                <div class="question">环形跑道长400米，甲速8 m/s，乙速5 m/s同向出发，甲第三次追上乙时，乙跑了多少米？</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">2000米</div>
+                </div>
+            </div>
             
-            <div class="question">巡逻车和嫌疑车在2 km环形路上同向行驶，巡逻车速度25 m/s，嫌疑车速度20 m/s，嫌疑车提前10秒出发，巡逻车需多久完成首次拦截？</div>
-            <div class="answer">40s </div>
+            <div class="question-container">
+                <div class="question">巡逻车和嫌疑车在2 km环形路上同向行驶，巡逻车速度25 m/s，嫌疑车速度20 m/s，嫌疑车提前10秒出发，巡逻车需多久完成首次拦截？</div>
+                <div class="answer-container">
+                    <div class="answer-prompt">点击显示答案</div>
+                    <div class="answer-content">40s</div>
+                </div>
+            </div>
         </div>
     </div>
-    
-   
-    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有答案容器添加点击事件
+            const containers = document.querySelectorAll('.answer-container');
+            containers.forEach(container => {
+                container.addEventListener('click', function() {
+                    this.classList.toggle('show-answer');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
